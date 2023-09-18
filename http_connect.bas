@@ -1,0 +1,22 @@
+10 CLEAR 400
+20 PA$="msx/me/if/NET0/"
+30 NL$=CHR$(13)+CHR$(10)
+40 SM$(0)="GET /index.html HTTP/1.1"+NL$
+50 SM$(1)="HOST: dummy.com"+NL$
+60 _IOTPUT(PA$+ "conf/addr","192.168.1.28")
+70 _IOTPUT(PA$+ "conf/port",80)
+80 _IOTPUT(PA$+ "connect",1)
+90 FOR I=0 TO 100:NEXT
+100 _IOTGET(PA$+ "connect",S)
+110 PRINT S
+120 IF S<>1 THEN PRINT "connect fail" GOTO 220
+130 FOR T=0 TO 1000:NEXT T
+140 _IOTPUT(PA$+"msg", SM$(0))
+150 _IOTPUT(PA$+"msg", SM$(1))
+160 _IOTPUT(PA$+"msg", NL$)
+170 FOR T=0 TO 100:NEXT T
+180 FOR I=0 TO 10
+190 _IOTGET(PA$+"msg", MESSAGE$)
+200 PRINT MESSAGE$
+210 NEXT I
+220 REM end
